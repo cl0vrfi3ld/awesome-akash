@@ -137,7 +137,7 @@ Awesome DeFi apps you can deploy on Akash
 
 ### Mining
 
-- [xmrig](monero)
+- [xmrig](xmrig)
 - [Chia Bladebit](chia-bladebit)
 - [Chia Bladebit Disk](chia-bladebit-disk)
 - [Chia Madmax](chia-madmax)
