@@ -2,42 +2,41 @@
 version: "2.0"
 
 services:
-  doom:
-    image: raviforbole/doom:akash
-    env:
-      - "VNC_USER=akash"
-      - "VNC_PW=decloud"
+  web:
+    image: wlouie1/mnist-train:1.0
     expose:
-      - port: 8443
-        as: 8443
+      - port: 8888
+        as: 80
+        to:
+          - global: true
+      - port: 6006
+        as: 6006
         to:
           - global: true
 
 profiles:
   compute:
-    doom:
+    web:
       resources:
         cpu:
-          units: 1.0
+          units: 0.5
         memory:
-          size: 0.5Gi
-        storage:
           size: 1Gi
+        storage:
+          size: 3Gi
   placement:
-    akash:
-      attributes:
-        host: akash
+    westcoast:
       signedBy:
         anyOf:
           - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"
           - "akash18qa2a2ltfyvkyj0ggj3hkvuj6twzyumuaru9s4"
       pricing:
-        doom:
+        web:
           denom: uakt
           amount: 10000
 
 deployment:
-  doom:
-    akash:
-      profile: doom
+  web:
+    westcoast:
+      profile: web
       count: 1

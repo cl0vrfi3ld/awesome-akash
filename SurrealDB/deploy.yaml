@@ -1,30 +1,25 @@
 ---
-version: "2.0"
-
+version: '2.0'
 services:
-  stable-diffusion-ui:
-    image: cryptoandcoffee/akash-stable-diffusion-ui:4
+  surrealdb:
+    image: 'surrealdb/surrealdb:1.0.0-beta.8'
     expose:
-      - port: 9000
-        as: 80
+      - port: 8000
+        as: 8000
         to:
           - global: true
-
+    args:
+      - start
 profiles:
   compute:
-    stable-diffusion-ui:
+    surrealdb:
       resources:
         cpu:
-          units: 16
-          # For quicker performance of Stable Diffusion, it's recommended to increase the CPU capacity.
-          # You can try using 32, 64, or 128 units to achieve faster processing. In case you don't receive any bids,
-          # consider lowering the requested CPU capacity. Note that the maximum CPU units allowed are 256.
+          units: 1
         memory:
-          size: 10Gi
-          # Stable Diffusion needs at least 8Gi of memory.
+          size: 1Gi
         storage:
-          size: 32Gi
-          # Stable Diffusion requires at least 25Gi of disk space.
+          - size: 1Gi
   placement:
     akash:
       #######################################################
@@ -38,12 +33,11 @@ profiles:
       #Beware* You may have deployment, security, or other issues on untrusted providers
       #https://docs.akash.network/providers/akash-audited-attributes
       pricing:
-        stable-diffusion-ui:
+        surrealdb:
           denom: uakt
-          amount: 100000
-
+          amount: 1000
 deployment:
-  stable-diffusion-ui:
+  surrealdb:
     akash:
-      profile: stable-diffusion-ui
+      profile: surrealdb
       count: 1
